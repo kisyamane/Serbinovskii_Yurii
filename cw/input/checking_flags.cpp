@@ -20,7 +20,8 @@ struct option long_opt[]={
     {"circle", 0, 0, 0},
     {"center", 1, 0, 0},
     {"radius", 1, 0, 0},
-    {"fill", 1, 0, 0},
+    {"fill", 2, 0, 0},
+    {"outside_ornament", 0, 0, 0},
     {0, 0, 0, 0}
 };
 
@@ -52,9 +53,12 @@ std::unordered_map<std::string, std::string> getFlags(int argc, char** argv)
             break;
         default:
             if (flags_table.find("input") == flags_table.end()) {
-                if (optind < argc) {
+                if (optind < argc) 
+                {
                     flags_table["input"] = argv[argc - 1];
-                } else {
+                } 
+                else 
+                {
                     std::cerr << INPUT << std::endl;
                     exit(43);
                 }

@@ -9,32 +9,37 @@ class Image
 {
 public:
     Image()
-        : bm_data{0}, fileHeader{0}, infoHeader{0}, bm_width{0}, bm_height{0}, padding{0} {}
+        : bm_data(0), bm_width(0), bm_height(0) {}
     
-    void readBMP(std::string & path, bool need_info);
+    void readBMP(std::string & path, std::string & function_to_run);
     void exportBMP(std::string & path);
 
+    int check_cords(int x, int y)
+    {
+        if (x < bm_width && y < bm_height && y >= 0 && x >= 0)
+        {
+            return 1;
+        }
+        return 0;
+    }
     void rectangle(Rectangle & rect);
     void circle(Circle & circ);
     void rotate(Rotate & rot);
     void ornament(Ornament & orn);
+    void something(Smth & smth);
+    void line(int x1, int y1, int x2, int y2, Color color, int thickness);
+
+    unsigned long width() {return bm_width;}
+    unsigned long height() {return bm_width;}
 private:
     std::vector<std::vector<Color>> bm_data;
 
-    //file header
-    unsigned char fileHeader[14];
-    // const int fileHeaderSize = 14;
-    // unsigned int fileSize;
     
-    //info header
-    unsigned char infoHeader[40];
-    // const int infoHeaderSize = 40;
-    unsigned int bm_width;
-    unsigned int bm_height;
-    // unsigned int bits_per_pixel;
-    // unsigned int compression;
+    FileHeader fileHeader;
+    InfoHeader infoHeader;
     
-    //padding
-    const int padding;
+    uint32_t bm_width;
+    uint32_t bm_height;
+    
 
 };

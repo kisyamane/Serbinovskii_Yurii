@@ -3,25 +3,18 @@
 
 
 std::string run_this(std::unordered_map<std::string, std::string> & flags_table) {
-    if (flags_table.find("help") != flags_table.end()) {
-        if (flags_table.size() > 1) {
-            std::cout << "Warning: --help was found, so other flags will be ignored" << std::endl;
+    if (flags_table.find("info") != flags_table.end()) {
+        if (validate_dependecies("info", flags_table)) {
+            return "info";
         }
-        return "help";
-    }
-    else if (flags_table.find("info") != flags_table.end()) {
-        if (flags_table.size() > 1) {
-            std::cout << "Warning: --info was found, so other flags will be ignored (except of -i)" << std::endl;
+        else {
+            std::cerr << DEPENDECIES << "info" << std::endl;
+            std::cout << HELP << std::endl;
+            exit(41);
         }
-        return "info";
     }
     else if (flags_table.find("rect") != flags_table.end()) {
-        if (flags_table.find("circle") != flags_table.end() || flags_table.find("rotate") != flags_table.end() || flags_table.find("ornament") != flags_table.end()) {
-            std::cerr << ONLY_ONE << std::endl;
-            std::cout << HELP << std::endl;
-            exit(42);
-        }
-        if (validate_dependecies("rect", flags_table) && value_check("rect", flags_table)) {
+        if (validate_dependecies("rect", flags_table)) {
             return "rect";
         }
         else {
@@ -31,12 +24,7 @@ std::string run_this(std::unordered_map<std::string, std::string> & flags_table)
         }
     }
     else if (flags_table.find("ornament") != flags_table.end()) {
-        if (flags_table.find("circle") != flags_table.end() || flags_table.find("rotate") != flags_table.end() || flags_table.find("rect") != flags_table.end()) {
-            std::cerr << ONLY_ONE << std::endl;
-            std::cout << HELP << std::endl;
-            exit(42);
-        }
-        if (validate_dependecies("ornament", flags_table) && value_check("ornament", flags_table)) {
+        if (validate_dependecies("ornament", flags_table)) {
             return "ornament";
         }
         else {
@@ -46,12 +34,7 @@ std::string run_this(std::unordered_map<std::string, std::string> & flags_table)
         }
     }
     else if (flags_table.find("rotate") != flags_table.end()) {
-        if (flags_table.find("circle") != flags_table.end() || flags_table.find("rect") != flags_table.end() || flags_table.find("ornament") != flags_table.end()) {
-            std::cerr << ONLY_ONE << std::endl;
-            std::cout << HELP << std::endl;
-            exit(42);
-        }
-        if (validate_dependecies("rotate", flags_table) && value_check("rotate", flags_table)) {
+        if (validate_dependecies("rotate", flags_table)) {
             return "rotate";
         }
         else {
@@ -61,16 +44,21 @@ std::string run_this(std::unordered_map<std::string, std::string> & flags_table)
         }
     }
     else if (flags_table.find("circle") != flags_table.end()) {
-        if (flags_table.find("rect") != flags_table.end() || flags_table.find("rotate") != flags_table.end() || flags_table.find("ornament") != flags_table.end()) {
-            std::cerr << ONLY_ONE << std::endl;
-            std::cout << HELP << std::endl;
-            exit(42);
-        }
-        if (validate_dependecies("circle", flags_table) && value_check("circle", flags_table)) {
+        if (validate_dependecies("circle", flags_table)) {
             return "circle";
         }
         else {
             std::cerr << DEPENDECIES << "circle" << std::endl;
+            std::cout << HELP << std::endl;
+            exit(41);
+        }
+    }
+    else if (flags_table.find("outside_ornament") != flags_table.end()) {
+        if (validate_dependecies("paving", flags_table)) {
+            return "outside_ornament";
+        }
+        else {
+            std::cerr << DEPENDECIES << "rect" << std::endl;
             std::cout << HELP << std::endl;
             exit(41);
         }
